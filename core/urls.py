@@ -8,6 +8,8 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
     SpectacularRedocView,
 )
+from django.http import JsonResponse
+from .health import health_check
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -36,4 +38,5 @@ urlpatterns = [
     path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     path('api/v1/', include('api.v1.urls')),
     path('api/v2/', include('api.v2.urls')),
+    path('api/health/', health_check, name='health_check'),
 ] 

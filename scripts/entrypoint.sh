@@ -1,13 +1,24 @@
 #!/bin/bash
 
 # Esperar pelo banco de dados
-python manage.py wait_for_db
+echo "Waiting for database..."
+while ! pg_isready -h $DB_HOST -p $DB_PORT -U $DB_USER
+do
+  sleep 2
+done
 
 # Aplicar migrações
-python manage.py migrate
+echo "Applying database migrations..."
+python manage.py migrate --noinput
+
+# Coletar arquivos estáticos
+echo "Collecting static files..."
+python manage.py collectstatic --noinput
 
 # Iniciar Celery em background
-celery -A core worker -l INFO &
+echo "Starting Celery worker..."
+celery -A core worker --loglevel=info &
 
 # Iniciar aplicação
-gunicorn core.wsgi:application --bind 0.0.0.0:8000 
+echo "Starting application..."
+gunicorn core.wsgi:application --bind 0.0.0.0:$PORT --workers 4 --threads 2 --timeout 120 
