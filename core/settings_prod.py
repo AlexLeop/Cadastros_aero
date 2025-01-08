@@ -10,12 +10,10 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
-# Middleware mínimo
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.middleware.common.CommonMiddleware',
-]
+# Configurações mínimas
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'your-default-secret-key-here')
+INSTALLED_APPS = ['django.contrib.staticfiles']
+MIDDLEWARE = ['whitenoise.middleware.WhiteNoiseMiddleware']
 
 # Database
 DATABASES = {
@@ -28,25 +26,4 @@ DATABASES = {
 # Static files
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
-# Security
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# Secret key
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'your-default-secret-key-here')
-
-# Logging
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'INFO',
-    },
-} 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage' 

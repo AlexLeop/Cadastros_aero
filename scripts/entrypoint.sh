@@ -3,28 +3,7 @@ set -e
 
 cd /app
 
-echo "Current directory: $(pwd)"
-echo "Python path: $PYTHONPATH"
-echo "Django settings module: $DJANGO_SETTINGS_MODULE"
-
-# Verificar variáveis de ambiente necessárias
-if [ -z "$DATABASE_URL" ]; then
-    echo "DATABASE_URL is not set"
-    exit 1
-fi
-
-if [ -z "$DJANGO_SECRET_KEY" ]; then
-    echo "DJANGO_SECRET_KEY is not set"
-    exit 1
-fi
-
-echo "Applying migrations..."
-python manage.py migrate --noinput
-
-echo "Collecting static files..."
-python manage.py collectstatic --noinput
-
-echo "Starting application..."
+echo "Starting Django application..."
 exec gunicorn core.wsgi:application \
     --bind 0.0.0.0:$PORT \
     --workers 1 \
@@ -33,5 +12,4 @@ exec gunicorn core.wsgi:application \
     --access-logfile - \
     --error-logfile - \
     --log-level debug \
-    --capture-output \
-    --preload 
+    --capture-output 

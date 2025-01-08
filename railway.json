@@ -8,6 +8,13 @@
     "restartPolicy": "on-failure",
     "numReplicas": 1,
     "healthcheckPath": "/",
-    "healthcheckTimeout": 5
+    "healthcheckPort": 8001,
+    "healthcheckTimeout": 3,
+    "env": [
+      {
+        "name": "HEALTH_PORT",
+        "value": "8001"
+      }
+    ]
   }
 } 
