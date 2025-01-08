@@ -3,6 +3,10 @@ set -e
 
 cd /app
 
+echo "Current directory: $(pwd)"
+echo "Python path: $PYTHONPATH"
+echo "Django settings module: $DJANGO_SETTINGS_MODULE"
+
 # Verificar variáveis de ambiente necessárias
 if [ -z "$DATABASE_URL" ]; then
     echo "DATABASE_URL is not set"

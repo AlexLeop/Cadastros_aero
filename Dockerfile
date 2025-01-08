@@ -5,7 +5,8 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PORT=8000 \
-    DJANGO_SETTINGS_MODULE=core.settings_prod
+    DJANGO_SETTINGS_MODULE=core.settings_prod \
+    PYTHONPATH=/app
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
