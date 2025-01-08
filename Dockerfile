@@ -7,7 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends gcc postgresql-client
+    apt-get install -y --no-install-recommends gcc postgresql-client netcat-openbsd
 
 COPY requirements.txt .
 RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.txt
@@ -18,7 +18,7 @@ FROM python:3.10-slim
 WORKDIR /app
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends postgresql-client && \
+    apt-get install -y --no-install-recommends postgresql-client netcat-openbsd && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -29,13 +29,9 @@ RUN pip install --no-cache /wheels/*
 
 COPY . .
 
-# Criar diretório para logs
-RUN mkdir -p /app/logs && \
-    chmod -R 755 /app/logs
-
-# Criar diretório para arquivos estáticos
-RUN mkdir -p /app/staticfiles && \
-    chmod -R 755 /app/staticfiles
+# Criar diretórios necessários
+RUN mkdir -p /app/logs /app/staticfiles && \
+    chmod -R 755 /app/logs /app/staticfiles
 
 # Script de entrada
 COPY scripts/entrypoint.sh /entrypoint.sh

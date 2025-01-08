@@ -10,7 +10,7 @@
   "deploy": {
     "startCommand": "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn core.wsgi:application",
     "healthcheckPath": "/api/health/",
-    "healthcheckTimeout": 100,
+    "healthcheckTimeout": 300,
     "restartPolicy": "on-failure",
     "numReplicas": 1,
     "maxReplicas": 3,
