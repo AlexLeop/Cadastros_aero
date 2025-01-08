@@ -4,7 +4,8 @@ WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PORT=8000
+    PORT=8000 \
+    DJANGO_SETTINGS_MODULE=core.settings_prod
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -24,7 +25,8 @@ RUN mkdir -p /app/staticfiles && \
 
 EXPOSE 8000
 
-HEALTHCHECK --interval=5s --timeout=3s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:$PORT/health/ || exit 1
+# Healthcheck mais simples
+HEALTHCHECK --interval=5s --timeout=3s --start-period=10s --retries=3 \
+    CMD curl -f http://localhost:$PORT/ || exit 1
 
 CMD ["/app/scripts/entrypoint.sh"] 

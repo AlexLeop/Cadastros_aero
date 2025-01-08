@@ -1,13 +1,12 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv
-from datetime import timedelta
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
-from sentry_sdk.integrations.celery import CeleryIntegration
-import dj_database_url
 
-load_dotenv()
+# Carregar .env apenas se existir
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 

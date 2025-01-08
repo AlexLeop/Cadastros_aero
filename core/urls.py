@@ -9,7 +9,6 @@ from drf_spectacular.views import (
     SpectacularRedocView,
 )
 from django.http import JsonResponse, HttpResponse
-from .health import health_check
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -24,11 +23,17 @@ schema_view = get_schema_view(
     permission_classes=(permissions.AllowAny,),
 )
 
+def health_check(request):
+    return HttpResponse("OK")
+
 def test_view(request):
     return HttpResponse("OK")
 
 urlpatterns = [
-    path('health/', health_check, name='health_check'),
+    # Health check como primeira rota, sem autenticação
+    path('', health_check),  # Rota raiz
+    path('health/', health_check),  # Rota de health alternativa
+    
     path('admin/', admin.site.urls),
     path('api/', include('records.urls')),
     path('api/', include('files.urls')),
