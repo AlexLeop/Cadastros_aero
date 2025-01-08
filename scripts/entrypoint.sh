@@ -1,4 +1,7 @@
 #!/bin/bash
+set -e
+
+cd /app
 
 echo "Applying migrations..."
 python manage.py migrate --noinput
