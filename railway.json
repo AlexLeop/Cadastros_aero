@@ -10,7 +10,8 @@
     "healthcheckPath": "/",
     "healthcheckPort": 8001,
     "healthcheckTimeout": 3,
-    "startCommand": "supervisord -c /etc/supervisor/conf.d/supervisord.conf",
+    "healthcheckInterval": "5s",
+    "startCommand": "/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf",
     "env": [
       {
         "name": "HEALTH_PORT",

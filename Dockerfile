@@ -26,10 +26,13 @@ COPY . /app/
 # Criar diretórios e configurar permissões
 RUN mkdir -p /app/staticfiles /app/logs /run/supervisor && \
     chmod +x /app/scripts/entrypoint.sh && \
-    chown -R www-data:www-data /app
+    chmod 755 /app/scripts/entrypoint.sh && \
+    chown -R www-data:www-data /app /run/supervisor && \
+    chmod -R 755 /app/logs /run/supervisor
 
 # Configuração do Supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+RUN chmod 644 /etc/supervisor/conf.d/supervisord.conf
 
 EXPOSE 8000 8001
 
