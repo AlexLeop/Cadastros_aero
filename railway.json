@@ -2,7 +2,10 @@
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
     "builder": "DOCKERFILE",
-    "dockerfilePath": "Dockerfile"
+    "dockerfilePath": "Dockerfile",
+    "watchPatterns": [
+      "/app/**/*"
+    ]
   },
   "deploy": {
     "startCommand": "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn core.wsgi:application",
@@ -10,6 +13,20 @@
     "healthcheckTimeout": 100,
     "restartPolicy": "on-failure",
     "numReplicas": 1,
-    "maxReplicas": 3
+    "maxReplicas": 3,
+    "env": [
+      {
+        "name": "DJANGO_SETTINGS_MODULE",
+        "value": "core.settings_prod"
+      },
+      {
+        "name": "DEBUG",
+        "value": "False"
+      },
+      {
+        "name": "ALLOWED_HOSTS",
+        "value": ".railway.app"
+      }
+    ]
   }
 } 
