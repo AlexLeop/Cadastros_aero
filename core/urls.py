@@ -8,7 +8,7 @@ from drf_spectacular.views import (
     SpectacularSwaggerView,
     SpectacularRedocView,
 )
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from .health import health_check
 
 schema_view = get_schema_view(
@@ -23,6 +23,9 @@ schema_view = get_schema_view(
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
+
+def test_view(request):
+    return HttpResponse("OK")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -39,4 +42,5 @@ urlpatterns = [
     path('api/v1/', include('api.v1.urls')),
     path('api/v2/', include('api.v2.urls')),
     path('api/health/', health_check, name='health_check'),
+    path('test/', test_view, name='test'),
 ] 
