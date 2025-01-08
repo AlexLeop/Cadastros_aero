@@ -10,11 +10,12 @@ echo "Collecting static files..."
 python manage.py collectstatic --noinput
 
 echo "Starting application..."
-gunicorn core.wsgi:application \
+exec gunicorn core.wsgi:application \
     --bind 0.0.0.0:$PORT \
     --workers 2 \
     --threads 2 \
-    --timeout 60 \
+    --timeout 30 \
     --access-logfile - \
     --error-logfile - \
-    --log-level info 
+    --log-level info \
+    --capture-output 

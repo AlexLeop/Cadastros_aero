@@ -1,10 +1,7 @@
-from django.http import JsonResponse
+from django.http import HttpResponse
 
 def health_check(request):
     """
-    Endpoint simples para verificar se a aplicação está rodando
+    Endpoint simples para healthcheck
     """
-    return JsonResponse({
-        'status': 'healthy',
-        'message': 'Application is running'
-    }) 
+    return HttpResponse("OK", status=200) 

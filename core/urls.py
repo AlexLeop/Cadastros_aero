@@ -28,6 +28,7 @@ def test_view(request):
     return HttpResponse("OK")
 
 urlpatterns = [
+    path('health/', health_check, name='health_check'),
     path('admin/', admin.site.urls),
     path('api/', include('records.urls')),
     path('api/', include('files.urls')),
@@ -41,6 +42,5 @@ urlpatterns = [
     path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     path('api/v1/', include('api.v1.urls')),
     path('api/v2/', include('api.v2.urls')),
-    path('api/health/', health_check, name='health_check'),
     path('test/', test_view, name='test'),
 ] 
