@@ -1,0 +1,42 @@
+[build]
+builder = "nixpacks"
+buildCommand = "python -m pip install poetry && poetry install --no-dev"
+
+[deploy]
+startCommand = "gunicorn core.wsgi:application --bind 0.0.0.0:$PORT"
+healthcheckPath = "/api/health/"
+restartPolicyType = "on-failure"
+restartPolicyMaxRetries = 3
+
+[env]
+PYTHON_VERSION = "3.11"
+DJANGO_SETTINGS_MODULE = "core.settings"
+
+[[services]]
+name = "web"
+envVars = [
+  "DJANGO_SETTINGS_MODULE",
+  "SECRET_KEY",
+  "ALLOWED_HOSTS",
+  "CORS_ALLOWED_ORIGINS",
+  "DATABASE_URL",
+  "REDIS_URL"
+]
+
+[[services]]
+name = "worker"
+command = "celery -A core worker -l info"
+envVars = [
+  "DJANGO_SETTINGS_MODULE",
+  "DATABASE_URL",
+  "REDIS_URL"
+]
+
+[[services]]
+name = "beat"
+command = "celery -A core beat -l info"
+envVars = [
+  "DJANGO_SETTINGS_MODULE",
+  "DATABASE_URL",
+  "REDIS_URL"
+] 

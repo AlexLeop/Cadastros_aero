@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: ./scripts/entrypoint.sh
+    environment:
+      - DJANGO_SETTINGS_MODULE=core.settings_prod
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+      - ELASTICSEARCH_HOSTS=${ELASTICSEARCH_HOSTS}
+    depends_on:
+      - db
+      - redis
+      - elasticsearch
+
+  celery:
+    build: .
+    command: celery -A core worker -l INFO
+    environment:
+      - DJANGO_SETTINGS_MODULE=core.settings_prod
+    depends_on:
+      - redis 
