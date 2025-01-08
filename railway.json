@@ -10,10 +10,19 @@
     "healthcheckPath": "/",
     "healthcheckPort": 8001,
     "healthcheckTimeout": 3,
+    "startCommand": "supervisord -c /etc/supervisor/conf.d/supervisord.conf",
     "env": [
       {
         "name": "HEALTH_PORT",
         "value": "8001"
+      },
+      {
+        "name": "DJANGO_SETTINGS_MODULE",
+        "value": "core.settings_prod"
+      },
+      {
+        "name": "PYTHONPATH",
+        "value": "/app"
       }
     ]
   }

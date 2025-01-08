@@ -3,7 +3,7 @@ set -e
 
 cd /app
 
-echo "Starting Django application..."
+# Iniciar apenas o Gunicorn para a aplicação principal
 exec gunicorn core.wsgi:application \
     --bind 0.0.0.0:$PORT \
     --workers 1 \
@@ -11,5 +11,5 @@ exec gunicorn core.wsgi:application \
     --timeout 30 \
     --access-logfile - \
     --error-logfile - \
-    --log-level debug \
+    --log-level info \
     --capture-output 
